@@ -1,0 +1,86 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: read-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "configmaps", "services", "ingresses", "secrets"]
+  verbs: ["get", "list", "watch"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev
+  name: write-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "configmaps", "services", "ingresses", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: admin-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "configmaps", "services", "ingresses", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete", "deletecollection"]
+
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-binding
+  namespace: default
+subjects:
+- kind: User
+  name: "user1" # Replace with actual usernames
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: read-role
+  apiGroup: rbac.authorization.k8s.io
+
+# Repeat the above block for the other user with read access in the default namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: write-binding
+  namespace: dev
+subjects:
+- kind: User
+  name: "user3" # Replace with actual usernames
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: write-role
+  apiGroup: rbac.authorization.k8s.io
+
+# Repeat the above block for the other users with write access in the dev namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-binding
+subjects:
+- kind: User
+  name: "admin1" # Replace with actual usernames
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: admin-role
+  apiGroup: rbac.authorization.k8s.io
+
+# Repeat the above block for the other users with admin access in all namespaces
+
+---
+
+
+
+
