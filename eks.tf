@@ -42,20 +42,20 @@ resource "aws_eks_addon" "vpc-cni" {
    
 }
 
-resource "aws_eks_addon" "credns" {
-  cluster_name = aws_eks_cluster.cluster.name
-  addon_name   = "coredns"
-  # addon_version = "v1.10.1-eksbuild.6"
+# resource "aws_eks_addon" "credns" {
+#   cluster_name = aws_eks_cluster.cluster.name
+#   addon_name   = "coredns"
+#   # addon_version = "v1.10.1-eksbuild.6"
    
-}
+# }
 
-resource "aws_eks_addon" "ebs" {
-  cluster_name = aws_eks_cluster.cluster.name
-  addon_name   = "aws-ebs-csi-driver"
-  # addon_version = "v1.25.0-eksbuild.1"
+# resource "aws_eks_addon" "ebs" {
+#   cluster_name = aws_eks_cluster.cluster.name
+#   addon_name   = "aws-ebs-csi-driver"
+#   # addon_version = "v1.25.0-eksbuild.1"
 
    
-}
+# }
 resource "aws_security_group" "additional_sg" { 
   name        = "allow_tls"
   description = "Allow eks inbound traffic"

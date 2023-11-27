@@ -14,17 +14,17 @@ terraform {
   }
    
   backend "s3" {
-    bucket = "akhil-matsonss"
+    bucket = "akhil-matsons"
     key    = "new/statefile"
     #dynamodb_table = "Dynamo"
     region = "us-east-1"
     encrypt        = true
-    profile = "default"
+    profile = "matson"
   }
 }
 
 provider "aws" {
   shared_credentials_files = ["C:/Users/Akhil/.aws/credentials"]
-  profile                 = "default"
+  profile                 = "matson"
 }
 

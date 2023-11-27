@@ -28,7 +28,7 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_iam_instance_profile" "profile" {
-  name = "new-test"
+  name = "karpenter-test"
   role = aws_iam_role.session-role.name
 }
 

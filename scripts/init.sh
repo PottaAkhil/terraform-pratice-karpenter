@@ -8,5 +8,7 @@ sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv
 sudo unzip awscliv2.zip
 sudo ./aws/install
 aws eks update-kubeconfig --name test-cluster --region us-east-1
-kubectl apply -f ./manifest/cluster-autoscaler.yml
+kubectl apply -f ./manifest/ingress-nginx-controller.yaml
+kubectl apply -f ./manifest/metric-server.yaml
+kubectl apply -f ./manifest/provisioner.yaml
 kubectl get pods -A

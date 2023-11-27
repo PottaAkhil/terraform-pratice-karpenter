@@ -13,9 +13,11 @@ resource "aws_subnet" "public" {
   cidr_block = var.public_Subnet[count.index]
   availability_zone = var.availability_zones[count.index]
 
-  tags = {
+  tags                          =  merge(tomap({
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
     Name = "public-subnet${count.index +1}"
-  }
+  }),var.resource_tags)
+
 }
 
 resource "aws_internet_gateway" "gw" {
@@ -34,9 +36,10 @@ resource "aws_route_table" "public-route-table" {
     cidr_block = var.routtable_cidr
     gateway_id = aws_internet_gateway.gw.id
   }
-  tags = {
-    Name = "public${count.index + 1}"
-  }
+  tags                          =  merge(tomap({
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
+    Name = "public${count.index +1}"
+  }),var.resource_tags)
 }
 resource "aws_route_table_association" "ARI" {
   count          = length(var.public_Subnet)
@@ -63,9 +66,11 @@ resource "aws_subnet" "private" {
   cidr_block = var.private_Subnet[count.index]
   availability_zone = var.availability_zones[count.index]
 
-  tags = {
+  tags                          =  merge(tomap({
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
     Name = "private-subnet${count.index +1}"
-  }
+  }),var.resource_tags)
+
 }
 
 
@@ -77,9 +82,11 @@ resource "aws_route_table" "private-route-table" {
     cidr_block = var.routtable_cidr
     gateway_id = aws_nat_gateway.NAT.id
   }
-  tags = {
+  
+  tags                          =  merge(tomap({
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
     Name = "private${count.index +1}"
-  }
+  }),var.resource_tags)
 }
 
 resource "aws_route_table_association" "ARN" {
